@@ -70,7 +70,7 @@ const getToken = (username) => {
   });
 };
 
-app.get("/messages/:id", (req, res, next) => {
+app.get("/token/:id", (req, res, next) => {
   db(`SELECT user WHERE id = etc";`)
     .then((results) => {
       getToken(results.data.user_name);

@@ -36,11 +36,19 @@ export default function UserProfile() {
         src="https://images.unsplash.com/photo-1554020997-47f84383f66a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
       ></img>
       {/* This will be imported from database eventually */}
-      <h1>user.username</h1>
-      <h3>user.location</h3>
-      <h2>My dogs:</h2>
-      <h5>user.dog_name</h5>
-      <p>user.dog_description</p>
+
+      <div className="container">
+        <div className="row align-items-start">
+          <h1>user.username</h1>
+          <h3>user.location</h3>
+        </div>
+
+        <div>
+          <h2>My dogs:</h2>
+          <h5>user.dog_name</h5>
+          <p>user.dog_description</p>
+        </div>
+      </div>
 
       {/* <div id="messenger" className="weavy-div"></div> */}
     </div>

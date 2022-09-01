@@ -10,7 +10,7 @@ const con = mysql.createConnection({
   host: DB_HOST || "127.0.0.1",
   user: DB_USER || "root",
   password: DB_PASS,
-  database: DB_NAME || "Trails",
+  database: DB_NAME || "final_project",
   multipleStatements: true,
 });
 
@@ -19,7 +19,7 @@ con.connect(function (err) {
   console.log("Connected!");
 
   let sql =
-    "DROP TABLE if exists paths; CREATE TABLE paths(id INT NOT NULL AUTO_INCREMENT, firstname VARCHAR(40) not null, lastname VARCHAR(40) not null, Age VARCHAR(40), Country VARCHAR(40), City VARCHAR(40), Place VARCHAR(40), Climate VARCHAR(40), Difficulty VARCHAR(40), Qualification VARCHAR(40), Image VARCHAR(40), Description VARCHAR(40), PRIMARY KEY (id));";
+    "DROP TABLE if exists user; CREATE TABLE user(user_Id INT NOT NULL, user_name VARCHAR(255) not null, user_email VARCHAR(255) not null, password VARCHAR(255) not null, location VARCHAR(255) not null, user_dog_name VARCHAR(255) not null, user_dog_description VARCHAR(255) not null, PRIMARY KEY (user_Id));DROP TABLE if exists walk; CREATE TABLE walk (walk_name VARCHAR(255) NOT NULL,location VARCHAR(255) NOT NULL,address VARCHAR(255) NOT NULL,types VARCHAR(255) NOT NULL,length VARCHAR(255) NOT NULL,rating INT NOT NULL,difficulty INT NOT NULL,description VARCHAR(255) NOT NULL);";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table creation `paths` was successful!");

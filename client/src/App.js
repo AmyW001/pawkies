@@ -1,51 +1,53 @@
 import "./App.css";
 import UserProfile from "./Components/UserProfile.js";
+import Header from "./Components/Header.js";
+import HomePage from "./Components/HomePage.js";
 import { Routes, Route, Link } from "react-router-dom";
 import { WeavyClient, WeavyProvider, Messenger } from "@weavy/uikit-react";
 import { useState } from "react";
 
 function App() {
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
 
-  const getToken = async (e) => {
-    // e.preventDefault();
+  // const getToken = async (e) => {
+  //   // e.preventDefault();
 
-    try {
-      let response = await fetch("/messages/:id", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        let data = await response.json();
-        setToken(data);
-      } else {
-        console.log(`Server error: ${response.status} ${response.statusText}`);
-      }
-    } catch (err) {
-      console.log("Network error:", err.message);
-    }
+  //   try {
+  //     let response = await fetch("/token/:id", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     if (response.ok) {
+  //       let data = await response.json();
+  //       setToken(data);
+  //     } else {
+  //       console.log(`Server error: ${response.status} ${response.statusText}`);
+  //     }
+  //   } catch (err) {
+  //     console.log("Network error:", err.message);
+  //   }
 
-    return null;
-  };
+  //   return null;
+  // };
 
-  const weavyClient = new WeavyClient({
-    url: "{dogappfinalproject.weavy}",
-    tokenFactory: getToken,
-  });
+  // const weavyClient = new WeavyClient({
+  //   url: "{dogappfinalproject.weavy.io}",
+  //   tokenFactory: getToken,
+  // });
 
   return (
     <div>
-      <h1>Hello I'm working!</h1>
+      <Header />
 
-      <WeavyProvider client={weavyClient}>
+      {/* <WeavyProvider client={weavyClient}>
         <Messenger />
-      </WeavyProvider>
+      </WeavyProvider> */}
 
       <Routes>
         <Route path="/user/:id" element={<UserProfile />} />
-        <Route path="/messages:id" element={<Messenger />} />
+        <Route path="/" element={<HomePage />} />
       </Routes>
     </div>
   );

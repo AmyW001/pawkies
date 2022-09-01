@@ -9,6 +9,7 @@ npm install dotenv
 npm i react-router-dom
 npm install @weavy/uikit-react
 npm i jsonwebtoken
+npm install bootstrap@v5.2.0
 
 # Getting Started with Create React App
 
