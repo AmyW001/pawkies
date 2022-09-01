@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.user-dog-img {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 200px;
+  height: 200px;
+}
+
+.weavy-div {
+  height: 600px;
+  border: 1px solid black;
+}
