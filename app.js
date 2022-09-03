@@ -5,8 +5,6 @@ var logger = require("morgan");
 var app = express();
 app.use(express.json());
 const db = require("./model/helper");
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -23,9 +21,11 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
 app.post("/sign-up", function (req, res, next) {
-  db(`INSERT INTO ? etc`)
+  db(
+    `INSERT INTO user (user_name, user_email, password, location, user_dog_name, user_dog_description) VALUES ("${req.body.user_name}", "${req.body.user_email})", "${req.body.password}", "${req.body.location}", "${req.body.user_dog_name}", "${req.body.user_dog_description}");`
+  )
     .then(() => {
-      db("SELECT * from admins ORDER BY id ASC;").then((results) => {
+      db("SELECT * from user ORDER BY user_Id ASC;").then((results) => {
         res.send(results.data);
         // if successful, page should navigate to log in page
       });
@@ -34,7 +34,9 @@ app.post("/sign-up", function (req, res, next) {
 });
 
 app.get("/login", (req, res, next) => {
-  db(`SELECT name and password WHERE name and password = etc";`)
+  db(
+    `SELECT user_name from user WHERE user_name="${req.body.user_name}" AND password="${req.body.password}";`
+  )
     .then((results) => {
       if (!results) {
         return res.status(404).send("Login information incorrect, try again");
@@ -47,65 +49,46 @@ app.get("/login", (req, res, next) => {
 });
 
 app.get("/user/:id", (req, res, next) => {
-  db(`SELECT user WHERE id = etc";`)
+  db(`select * from user where user_Id="${req.params.id}";`)
     .then((results) => {
-      res.send(results.data);
-      //data displayed in UserProfile component
-    })
-    .catch((err) => res.status(500).send(err));
-});
-
-const getToken = (username) => {
-  return new Promise(function (resolve, reject) {
-    // typically an api call to your backend which returns a JWT
-
-    let token = jwt.sign(username, process.env.ACCESS_TOKEN_SECRET);
-    if (token) {
-      resolve(token);
-      return token;
-    } else {
-      reject("Failed to retrieve token");
-      console.log("Failed to retrieve token");
-    }
-  });
-};
-
-app.get("/token/:id", (req, res, next) => {
-  db(`SELECT user WHERE id = etc";`)
-    .then((results) => {
-      getToken(results.data.user_name);
-      console.log("success");
-      //data displayed in UserProfile component
-    })
-    .then((token) => {
-      res.send(token);
+      if (!results) {
+        return res.status(404).send("No user found");
+      } else {
+        res.send(results.data);
+      }
     })
     .catch((err) => res.status(500).send(err));
 });
 
 app.post("/add-walk", (req, res, next) => {
-  db(`INSERT INTO ? etc`)
-    .then((results) => {
-      res.send(results.data);
+  db(
+    `INSERT INTO walk (walk_name, location, address, types, length, rating, difficulty, description) VALUES ("${req.body.walk_name}", "${req.body.location})", "${req.body.address}", "${req.body.types}", "${req.body.length}", "${req.body.rating}", "${req.body.difficulty}", "${req.body.description}")`
+  )
+    .then(() => {
+      db(`SELECT * from walk WHERE walk_name="${req.body.walk_name}";`).then(
+        (results) => {
+          res.send(results.data);
+        }
+      );
       //user should be directed to individual walk page for the walk they've just uploaded
     })
     .catch((err) => res.status(500).send(err));
 });
 
-app.get("/walk/:id", (req, res, next) => {
-  db(`SELECT walk WHERE id = etc";`)
+app.get("/all-walks", (req, res, next) => {
+  db(`SELECT * from walk;`)
     .then((results) => {
       res.send(results.data);
-      //data displayed in IndividualWalk component
+      //data displayed in AllWalks component
     })
     .catch((err) => res.status(500).send(err));
 });
 
-app.get("/all-walks", (req, res, next) => {
-  db(`SELECT * from ?database?`)
+app.get("/walk/:name", (req, res, next) => {
+  db(`SELECT * from walk WHERE walk_name="${req.params.name}";`)
     .then((results) => {
       res.send(results.data);
-      //data displayed in AllWalks component
+      //data displayed in IndividualWalk component
     })
     .catch((err) => res.status(500).send(err));
 });
