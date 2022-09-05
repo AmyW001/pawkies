@@ -10,7 +10,7 @@ npm i react-router-dom
 npm install bootstrap@v5.2.0
 npm install talkjs --save
 
-npm install leaflet (https://react-leaflet.js.org/docs/start-installation/)
+npm install leaflet in the client folder (https://react-leaflet.js.org/docs/start-installation/)
 
 # Getting Started with Create React App
 
