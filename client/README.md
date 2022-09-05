@@ -1,3 +1,15 @@
+# How to set up project:
+
+Set Up:
+npm install
+npm install mysql
+(I had warning “1 high severity vulnerability” so I ran “npm audit fix”
+npm install nodemon
+npm install dotenv
+npm i react-router-dom
+npm install bootstrap@v5.2.0
+npm install talkjs --save
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
