@@ -42,6 +42,7 @@
   object-fit: cover;
   width: 200px;
   height: 200px;
+  margin: 1em 1em 3em 1em;
 }
 
 .weavy-div {
@@ -51,4 +52,25 @@
 
 .navbar-brand {
   font-weight: bold;
+}
+
+.user-main-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.user-header {
+  text-align: center;
+  padding: 1em 1em 1em 1em;
+}
+
+.user-second-div {
+  padding: 1em 1em 1em 1em;
+}
+
+.user-header-5 {
+  padding-bottom: 1em;
 }

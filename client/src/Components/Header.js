@@ -1,10 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+
+  const returnHome = async (e) => {
+    // handle form submit
+    e.preventDefault();
+    navigate(`/`);
+  };
+
   return (
     <div>
       <nav className="navbar navbar-light bg-light justify-content-between">
-        <a className="navbar-brand">Dog Walk Final Project 🐶</a>
+        <a className="navbar-brand" onClick={returnHome}>
+          Dog Walk Final Project 🐶
+        </a>
         <form className="form-inline">
           <button
             className="btn btn-outline-success my-2 my-sm-0"
