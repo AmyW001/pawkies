@@ -7,12 +7,12 @@ export default function AllWalks() {
   useEffect(() => {
     const loadWalk = async (e) => {
       try {
-        let response = await fetch(`/walk/1`, {
+        let response = await fetch(`/all-walks`, {
           method: "GET",
         });
         if (response.ok) {
           let data = await response.json();
-          setWalk(data[0]);
+          setWalk(data);
         } else {
           console.log(
             `Server error: ${response.status} ${response.statusText}`

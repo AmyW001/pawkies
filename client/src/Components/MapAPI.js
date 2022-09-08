@@ -19,3 +19,5 @@ export default function MapAPI() {
     </div>
   );
 }
+
+//add latitude and longitude from the address that the user will input in the addwalkform.js

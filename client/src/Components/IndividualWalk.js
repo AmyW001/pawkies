@@ -9,7 +9,7 @@ export default function IndividualWalk() {
   useEffect(() => {
     const loadIndWalk = async (e) => {
       try {
-        let response = await fetch(`/walk/1`, {
+        let response = await fetch(`/walk/:name`, {
           method: "GET",
         });
         if (response.ok) {
