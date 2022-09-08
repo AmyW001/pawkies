@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import SignUpForm from "./SignUpForm";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -23,8 +25,11 @@ export default function Header() {
           >
             Log In
           </button>
-          <button className="btn btn-secondary my-2 my-sm-0" type="submit">
-            Sign Up
+          <button className="btn btn-secondary my-2 my-sm-0">
+            <Link to="/signup" class="link success">
+              {" "}
+              Sign Up
+            </Link>
           </button>
         </form>
       </nav>
