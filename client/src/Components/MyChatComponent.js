@@ -11,7 +11,6 @@ export default function MyChatComponent() {
         name: "Henry Mill",
         email: "henrymill@example.com",
         photoUrl: "henry.jpeg",
-        welcomeMessage: "Hello!",
         role: "default",
       });
 
@@ -26,7 +25,6 @@ export default function MyChatComponent() {
         name: "Jessica Wells",
         email: "jessicawells@example.com",
         photoUrl: "jessica.jpeg",
-        welcomeMessage: "Hello!",
         role: "default",
       });
       // Safe to use the SDK here
@@ -36,15 +34,19 @@ export default function MyChatComponent() {
       conversation.setParticipant(currentUser);
       conversation.setParticipant(otherUser);
 
-      const chatbox = session.createChatbox();
-      chatbox.select(conversation);
-      chatbox.mount(chatboxEl);
+      const inbox = session.createInbox();
+      inbox.select(conversation);
+      inbox.mount(chatboxEl.current);
+
+      // const chatbox = session.createChatbox();
+      // chatbox.select(conversation);
+      // chatbox.mount(chatboxEl.current);
     });
   }, []);
 
   return (
     <div>
-      <div ref={chatboxEl}></div>;
+      <div className="chatbox-div" ref={chatboxEl}></div>;
     </div>
   );
 }

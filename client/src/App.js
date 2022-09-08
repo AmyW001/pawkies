@@ -1,4 +1,5 @@
 import "./App.css";
+import React, { useState } from "react";
 import UserProfile from "./Components/UserProfile.js";
 import Header from "./Components/Header.js";
 import HomePage from "./Components/HomePage.js";
@@ -8,6 +9,16 @@ import SignUpForm from "./Components/SignUpForm.js";
 import { Routes, Route, Link } from "react-router-dom";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const dataToChatComponent = () => {
+    //send data to chatComponent using this function
+  };
+
+  const loggedInData = () => {
+    //function for getting data from child component SignUpForm
+  };
+
   return (
     <div>
       <Header />
@@ -16,7 +27,10 @@ function App() {
         <Route path="/user/:id" element={<UserProfile />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/chat" element={<MyChatComponent />} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route
+          path="/login"
+          element={<LoginForm loggedInData={loggedInData} />}
+        />
         <Route path="/sign-up" element={<SignUpForm />} />
       </Routes>
     </div>
