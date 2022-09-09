@@ -18,6 +18,10 @@
     "nodemon": "^2.0.19",
     "react-router-dom": "^6.3.0",
     "talkjs": "^0.15.5",
+<<<<<<< HEAD
+=======
+    "leaflet": "^1.8.0",
+>>>>>>> ba70ca9d21ba0616a9f6b1b5775fbf7c097bd177
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.19",

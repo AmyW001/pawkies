@@ -22,7 +22,7 @@ app.use("/users", usersRouter);
 
 app.post("/sign-up", function (req, res, next) {
   db(
-    `INSERT INTO user (user_name, user_email, password, location, user_dog_name, user_dog_description) VALUES ("${req.body.user_name}", "${req.body.user_email})", "${req.body.password}", "${req.body.location}", "${req.body.user_dog_name}", "${req.body.user_dog_description}");`
+    `INSERT INTO user (user_name, user_email, password, location, user_dog_name, user_dog_description) VALUES ("${req.body.user_name}", "${req.body.user_email}", "${req.body.password}", "${req.body.location}", "${req.body.user_dog_name}", "${req.body.user_dog_description}");`
   )
     .then(() => {
       db("SELECT * from user ORDER BY user_Id ASC;").then((results) => {
@@ -60,9 +60,21 @@ app.get("/user/:id", (req, res, next) => {
     .catch((err) => res.status(500).send(err));
 });
 
+app.get("/all-users", (req, res, next) => {
+  db(`select * from user;`)
+    .then((results) => {
+      if (!results){
+        return res.status(404).send("No user found")
+      } else {
+        res.send(results.data);
+      }
+  })
+  .catch((err) => res.status(500).send(err));
+});
+
 app.post("/add-walk", (req, res, next) => {
   db(
-    `INSERT INTO walk (walk_name, location, address, types, length, rating, difficulty, description) VALUES ("${req.body.walk_name}", "${req.body.location})", "${req.body.address}", "${req.body.types}", "${req.body.length}", "${req.body.rating}", "${req.body.difficulty}", "${req.body.description}")`
+    `INSERT INTO walk (walk_name, location, address, types, length, rating, difficulty, description, photo_url) VALUES ("${req.body.walk_name}", "${req.body.location}", "${req.body.address}", "${req.body.types}", "${req.body.length}", "${req.body.rating}", "${req.body.difficulty}", "${req.body.description}", "${req.body.photo_url}")`
   )
     .then(() => {
       db(`SELECT * from walk WHERE walk_name="${req.body.walk_name}";`).then(
