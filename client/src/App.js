@@ -77,5 +77,5 @@ function App() {
     </div>
   );
 }
-
+//I am not sure why we need to add the IndividualWalk and Userprofile here but is the only way that It works
 export default App;
