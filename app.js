@@ -33,9 +33,10 @@ app.post("/sign-up", function (req, res, next) {
     .catch((err) => res.status(500).send(err));
 });
 
-app.get("/login", (req, res, next) => {
+app.post("/login", (req, res, next) => {
+  console.log(req);
   db(
-    `SELECT user_name from user WHERE user_name="${req.body.user_name}" AND password="${req.body.password}";`
+    `SELECT user_name, user_Id, location, user_dog_name, user_dog_description from user WHERE user_name="${req.body.user_name}" AND user_email="${req.body.user_email}" AND password="${req.body.password}";`
   )
     .then((results) => {
       if (!results) {
@@ -48,20 +49,9 @@ app.get("/login", (req, res, next) => {
     .catch((err) => res.status(500).send(err));
 });
 
-// app.get("/user/:name", (req, res, next) => {
-//   db(`select * from user where user_name="${req.params.name}";`)
-//     .then((results) => {
-//       if (!results) {
-//         return res.status(404).send("No user found");
-//       } else {
-//         res.send(results.data);
-//       }
-//     })
-//     .catch((err) => res.status(500).send(err));
-// });
-
-app.get("/user/:id", (req, res, next) => {
-  db(`select * from user where user_Id="${req.params.id}";`)
+app.get("/user/:username", (req, res, next) => {
+  console.log(req.params.name);
+  db(`select * from user where user_name="${req.params.username}";`)
     .then((results) => {
       if (!results) {
         return res.status(404).send("No user found");
@@ -71,6 +61,18 @@ app.get("/user/:id", (req, res, next) => {
     })
     .catch((err) => res.status(500).send(err));
 });
+
+// app.get("/user/:id", (req, res, next) => {
+//   db(`select * from user where user_Id="${req.params.id}";`)
+//     .then((results) => {
+//       if (!results) {
+//         return res.status(404).send("No user found");
+//       } else {
+//         res.send(results.data);
+//       }
+//     })
+//     .catch((err) => res.status(500).send(err));
+// });
 
 app.get("/all-users", (req, res, next) => {
   db(`select * from user;`)

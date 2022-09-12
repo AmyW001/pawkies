@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Talk from "talkjs";
 import userheaderphoto from "../Images/userheaderphoto.jpeg";
 
-export default function UserProfile(sessionProps) {
+export default function UserProfile({ sessionProps }) {
   const [user, setUser] = useState();
   const chatboxEl = useRef();
 
@@ -10,6 +10,7 @@ export default function UserProfile(sessionProps) {
 
   useEffect(() => {
     const loadPage = async (e) => {
+      console.log(sessionProps);
       try {
         let response = await fetch(window.location.pathname, {
           method: "GET",
@@ -38,9 +39,9 @@ export default function UserProfile(sessionProps) {
   const startChat = () => {
     Talk.ready.then(() => {
       const currentUser = new Talk.User({
-        id: sessionProps.sessionProps.user_Id,
-        name: sessionProps.sessionProps.user_name,
-        email: sessionProps.sessionProps.user_email,
+        id: sessionProps[0].user_Id,
+        name: sessionProps[0].user_name,
+        email: sessionProps[0].user_email,
         photoUrl: "henry.jpeg",
         role: "default",
       });

@@ -11,14 +11,7 @@ import { Routes, Route, Link, Navigate } from "react-router-dom";
 import SignUpForm from "./Components/SignUpForm";
 
 function App() {
-  //hardcoded data below, as temporary fix
-  const [loggedIn, setLoggedIn] = useState({
-    user_Id: 9,
-    user_name: "Mimi",
-    user_email: "mimi@notreal.co",
-    photoUrl: "jessica.jpeg",
-    role: "default",
-  });
+  const [loggedIn, setLoggedIn] = useState([]);
   const [Walks, setWalks] = useState([]);
   const [Users, setUsers] = useState([]);
 
@@ -26,11 +19,14 @@ function App() {
     //send data to chatComponent using this function
   };
 
-  // const handleLoggedInData = (loggedInData) => {
-  //   //function for getting data from child component SignUpForm
-  //   //***use this once loginform is up and running***:
-  //   // setLoggedIn((currentState) => [...currentState, loggedInData]);
-  // };
+  const handleLoggedInData = (loggedInData) => {
+    //function for getting data from child component SignUpForm
+    setLoggedIn((currentState) => [...currentState, loggedInData]);
+  };
+
+  const dataCheck = () => {
+    console.log(loggedIn);
+  };
 
   const handleAddWalk = (newWalk) => {
     setWalks((state) => [...state, newWalk]);
@@ -42,6 +38,8 @@ function App() {
 
   return (
     <div>
+      {/* <Header sessionProps={loggedIn} /> */}
+      <button onClick={dataCheck}>Check loggedInData!</button>
       <Header sessionProps={loggedIn} />
 
       <Routes>
@@ -55,7 +53,7 @@ function App() {
           path="/login"
           element={
             <LoginForm
-            // loggedInData={(loggedInData) => handleLoggedInData(loggedInData)}
+              loggedInData={(loggedInData) => handleLoggedInData(loggedInData)}
             />
           }
         />
