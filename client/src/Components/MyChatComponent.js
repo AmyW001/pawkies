@@ -27,6 +27,7 @@ export default function MyChatComponent() {
         photoUrl: "jessica.jpeg",
         role: "default",
       });
+
       // Safe to use the SDK here
 
       const conversationID = Talk.oneOnOneId(currentUser, otherUser);

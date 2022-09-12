@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Talk from "talkjs";
+import userheaderphoto from "../Images/userheaderphoto.jpeg";
 
-export default function UserProfile() {
+export default function UserProfile(sessionProps) {
   const [user, setUser] = useState();
+  const chatboxEl = useRef();
+
   // const [error, setError] = useState("");
 
   useEffect(() => {
@@ -26,30 +30,108 @@ export default function UserProfile() {
     loadPage();
   }, []);
 
+  useEffect(() => {
+    //write something here which makes a call to the database to fetch the user's uploaded walks
+    //then display below
+  }, []);
+
+  const startChat = () => {
+    Talk.ready.then(() => {
+      const currentUser = new Talk.User({
+        id: sessionProps.sessionProps.user_Id,
+        name: sessionProps.sessionProps.user_name,
+        email: sessionProps.sessionProps.user_email,
+        photoUrl: "henry.jpeg",
+        role: "default",
+      });
+
+      const session = new Talk.Session({
+        appId: "tmpyzQVy",
+        me: currentUser,
+      });
+
+      // After `Talk.ready`
+      const otherUser = new Talk.User({
+        id: user.user_Id,
+        name: user.user_name,
+        email: user.user_email,
+        photoUrl: "jessica.jpeg",
+        role: "default",
+      });
+
+      const conversationID = Talk.oneOnOneId(currentUser, otherUser);
+      const conversation = session.getOrCreateConversation(conversationID);
+      conversation.setParticipant(currentUser);
+      conversation.setParticipant(otherUser);
+
+      const inbox = session.createInbox();
+      inbox.select(conversation);
+      inbox.mount(chatboxEl.current);
+
+      // const chatbox = session.createChatbox();
+      // chatbox.select(conversation);
+      // chatbox.mount(chatboxEl.current);
+    });
+  };
+
   return (
     <div>
       {user && (
         <div className="user-main-div">
-          <h1 className="user-header">Hi! My name is {user.user_name}!</h1>
-
-          <img
-            className="user-dog-img"
-            src="https://images.unsplash.com/photo-1554020997-47f84383f66a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
-          ></img>
-
-          <div className="user-second-div">
-            <h3>I'm based in {user.location}</h3>
+          <div className="user-header-image-div">
+            <img className="user-header-image" src={userheaderphoto}></img>
           </div>
 
+          <img
+            className="user-img"
+            src="https://images.unsplash.com/photo-1595314544137-1b106b06e2c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+          ></img>
+
           <div>
-            <h2>My dog is:</h2>
-            <h5 className="user-header-5">{user.user_dog_name}</h5>
-            <p>
-              More about {user.user_dog_name}: {user.user_dog_description}
-            </p>
+            <h1 className="user-header">Hi! My name is {user.user_name}!</h1>
+
+            <div className="user-second-div">
+              <h3>
+                <u>I'm based in {user.location}</u>
+              </h3>
+            </div>
+
+            <div className="container dog-info-div m-5 w-75">
+              <div className="row shadow p-5 mb-5 bg-white rounded">
+                <div className="col-6 ">
+                  <h2 className="user-header-2">
+                    My dog is {user.user_dog_name}
+                  </h2>
+                  <p>
+                    More about {user.user_dog_name}: {user.user_dog_description}
+                  </p>
+                </div>
+
+                <div className="col-6">
+                  <img
+                    className="user-dog-image"
+                    src="https://images.unsplash.com/photo-1554020997-47f84383f66a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+                  ></img>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-lg btn-outline-success message-button m-3"
+              onClick={startChat}
+            >
+              Message Me!
+            </button>
+
+            <p> Get in touch to organise a meet up or group walk.</p>
           </div>
         </div>
       )}
+      <div className="chatbox-div" ref={chatboxEl}></div>;
+      <div className="m-4">
+        <h3>My walks: (walk cards imported here)</h3>
+      </div>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import SignUpForm from "./SignUpForm";
 
-export default function Header() {
+export default function Header(sessionProps) {
   const navigate = useNavigate();
 
   const returnHome = async (e) => {
@@ -18,20 +18,32 @@ export default function Header() {
         <a className="navbar-brand" onClick={returnHome}>
           Dog Walk Final Project 🐶
         </a>
-        <form className="form-inline">
-          <button
-            className="btn btn-outline-success my-2 my-sm-0"
-            type="submit"
-          >
-            Log In
-          </button>
-          <button className="btn btn-secondary my-2 my-sm-0">
-            <Link to="/signup" class="link success">
-              {" "}
-              Sign Up
-            </Link>
-          </button>
-        </form>
+        {!sessionProps && (
+          <form className="form-inline">
+            <button
+              className="btn btn-outline-success my-2 my-sm-0"
+              type="submit"
+            >
+              Log In
+            </button>
+            <button className="btn btn-secondary my-2 my-sm-0">
+              <Link to="/signup" class="link success">
+                {" "}
+                Sign Up
+              </Link>
+            </button>
+          </form>
+        )}
+        {sessionProps && (
+          <form className="form-inline">
+            <button
+              className="btn btn-outline-success my-2 my-sm-0"
+              type="submit"
+            >
+              Log Out
+            </button>
+          </form>
+        )}
       </nav>
     </div>
   );
