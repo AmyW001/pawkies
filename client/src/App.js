@@ -48,7 +48,7 @@ function App() {
 
       <Routes>
         <Route
-          path="/user/:id"
+          path="/user/:user_name"
           element={<UserProfile sessionProps={loggedIn} />}
         />
         <Route path="/" element={<HomePage />} />
@@ -72,9 +72,8 @@ function App() {
           path="/signup"
           element={<SignUpForm addUser={(newUser) => handleAddUser(newUser)} />}
         />
+      <Route path="/walk/:id" element={<IndividualWalk />} />
       </Routes>
-      <IndividualWalk/>
-      <UserProfile/>
     </div>
     </div>
   );

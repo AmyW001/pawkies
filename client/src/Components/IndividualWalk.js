@@ -59,11 +59,11 @@ export default function IndividualWalk() {
     fetch("/walk/" + path) 
             .then(res => res.json())
             .then(json => {
-              // upon success, update trials
+              console.log("*****",json)
               setIndividualwalk(json);
             })
             .catch(error => {
-              // upon failure, show error message
+              console.log("****CATCH***", error)
             });
         }, [path]);
 

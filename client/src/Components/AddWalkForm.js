@@ -2,9 +2,11 @@ import React, {useState} from "react";
 
 function AddWalkForm({addWalk}) {
     const [formAllData, setFormAllData] = useState({
+    walkusername: "",
     walkname: "",
     walklocation: "",
     walkaddress: "",
+    walkcoordinates: "",
     walktypes: "",
     walklength: "",
     walkrating: "",
@@ -40,12 +42,14 @@ const addnewWalk = () => {
         walk_name: formAllData.walkname,
         location: formAllData.walklocation,
         address: formAllData.walkaddress,
+        Coordinates: formAllData.walkcoordinates,
         types: formAllData.walktypes,
         length: formAllData.walklength,
         rating: formAllData.walkrating,
         difficulty: formAllData.walkdifficulty,
         description: formAllData.walkdescription,
-        photo_url: formAllData.photo_url,
+        photo_url: formAllData.walkphoto,
+        user_name: formAllData.walkusername,
         }),
 })
     .then((res) => res.json())
@@ -63,6 +67,19 @@ return (
         <h2 class="title"> Do you want to share your walk? </h2>
             
             <div className="row">
+
+                <div class ="form-group col-md-4">
+                    <label className="form-label"> What is your username?</label>
+                    <input 
+                        name="walkusername"
+                        type = "text"
+                        value={formAllData.walkusername}
+                        onChange={handleChange}
+                        class="form-control"
+                        required
+                    />
+                </div>
+
                 <div class ="form-group col-md-4">
                     <label className="form-label"> What is the name of the walk?</label>
                     <input 
@@ -93,6 +110,18 @@ return (
                         name="walkaddress"
                         type = "text"
                         value={formAllData.walkaddress}
+                        onChange={handleChange}
+                        class="form-control"
+                        required
+                    />
+                </div>
+
+                <div class ="form-group col-md-4">
+                    <label className="form-label"> What were the coordinates?</label>
+                    <input 
+                        name="walkcoordinates"
+                        type = "text"
+                        value={formAllData.walkcoordinates}
                         onChange={handleChange}
                         class="form-control"
                         required
