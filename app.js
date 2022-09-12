@@ -48,6 +48,18 @@ app.get("/login", (req, res, next) => {
     .catch((err) => res.status(500).send(err));
 });
 
+// app.get("/user/:name", (req, res, next) => {
+//   db(`select * from user where user_name="${req.params.name}";`)
+//     .then((results) => {
+//       if (!results) {
+//         return res.status(404).send("No user found");
+//       } else {
+//         res.send(results.data);
+//       }
+//     })
+//     .catch((err) => res.status(500).send(err));
+// });
+
 app.get("/user/:id", (req, res, next) => {
   db(`select * from user where user_Id="${req.params.id}";`)
     .then((results) => {
@@ -63,13 +75,13 @@ app.get("/user/:id", (req, res, next) => {
 app.get("/all-users", (req, res, next) => {
   db(`select * from user;`)
     .then((results) => {
-      if (!results){
-        return res.status(404).send("No user found")
+      if (!results) {
+        return res.status(404).send("No user found");
       } else {
         res.send(results.data);
       }
-  })
-  .catch((err) => res.status(500).send(err));
+    })
+    .catch((err) => res.status(500).send(err));
 });
 
 app.post("/add-walk", (req, res, next) => {
