@@ -10,9 +10,10 @@
     "bootstrap": "^5.2.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "express": "~4.16.1",
     "jsonwebtoken": "^8.5.1",
+<<<<<<< HEAD
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.19",
@@ -20,6 +21,8 @@
     "talkjs": "^0.15.5",
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> 0ab7f402aca0448b735a47d11bdcf1b56f828d15
     "leaflet": "^1.8.0",
 >>>>>>> ba70ca9d21ba0616a9f6b1b5775fbf7c097bd177
     "morgan": "~1.9.1",
@@ -27,6 +30,12 @@
     "nodemon": "^2.0.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-router-dom": "^6.3.0"
+=======
+    "react-leaflet": "^4.0.2",
+    "react-router-dom": "^6.3.0",
+    "talkjs": "^0.15.5"
+>>>>>>> 0ab7f402aca0448b735a47d11bdcf1b56f828d15
   }
 }

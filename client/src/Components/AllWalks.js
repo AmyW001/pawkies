@@ -35,41 +35,18 @@
 // }
 
 import React, { useEffect, useState } from 'react';
+import Walk from "./walk/Walk"
 
-export default function AllWalks({Walksprop}) {
-let [fullWalks, setFullWalks] = useState([]);
+export default function AllWalks({walks}) {
 
-useEffect(() => {
-  fetch("/all-walks") 
-          .then(res => res.json())
-          .then(json => {
-            // upon success, update trials
-            console.log(json);
-            setFullWalks(json);
-          })
-          .catch(error => {
-            // upon failure, show error message
-          });
-      }, []);
 
   return (
     <div class = "card pb-3 bg-light"> AllWalks
-    {
-    fullWalks.map( fullWalk => (
-        <tr key={fullWalk.id}>
-        <img 
-          src= {fullWalk.photo_url}
-          class= "card-img-top"
-          width="200" height= "250"
-        />
-        <div class="card-body">
-          <h5 class="card-title"> Location: {fullWalk.location} </h5>
-          <p class="card-text"> Description: {fullWalk.description} </p>
-        </div>
-        </tr>
-      ))
-    }
+    {walks.map((w) => (
+          <Walk key={w.id} walk={w} />
+    ))};
     </div>
   );
+
 };
 

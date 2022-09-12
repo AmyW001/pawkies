@@ -1,7 +1,26 @@
-import React from "react";
+import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import AllWalks from "./AllWalks";
 
 export default function HomePage() {
-  return (
+
+let [fullWalks, setFullWalks] = useState([]);
+
+
+useEffect(() => {
+  fetch("/all-walks") 
+          .then(res => res.json())
+          .then(json => {
+            // upon success, update trials
+            console.log(json);
+            setFullWalks(json);
+          })
+          .catch(error => {
+            // upon failure, show error message
+          });
+      }, []);
+
+return (
     <div>
       <div className="header-image-div">
         <img
@@ -10,6 +29,7 @@ export default function HomePage() {
         ></img>
       </div>
       <h1>🐶 Welcome to our dog walks app! 🐶</h1>
+      <AllWalks walks={fullWalks}/>
     </div>
   );
 }

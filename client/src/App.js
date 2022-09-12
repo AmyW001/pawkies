@@ -9,6 +9,7 @@ import AddWalkForm from "./Components/AddWalkForm";
 import AllWalks from "./Components/AllWalks";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import SignUpForm from "./Components/SignUpForm";
+import IndividualWalk from "./Components/IndividualWalk";
 
 function App() {
   //hardcoded data below, as temporary fix
@@ -72,9 +73,11 @@ function App() {
           element={<SignUpForm addUser={(newUser) => handleAddUser(newUser)} />}
         />
       </Routes>
+      <IndividualWalk/>
+      <UserProfile/>
     </div>
     </div>
   );
 }
-
+//I am not sure why we need to add the IndividualWalk and Userprofile here but is the only way that It works, help
 export default App;

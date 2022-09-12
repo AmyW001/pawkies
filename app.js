@@ -60,7 +60,7 @@ app.get("/login", (req, res, next) => {
 //     .catch((err) => res.status(500).send(err));
 // });
 
-app.get("/user/:id", (req, res, next) => {
+app.get("/user/plus/:id", (req, res, next) => {
   db(`select * from user where user_Id="${req.params.id}";`)
     .then((results) => {
       if (!results) {
@@ -71,6 +71,16 @@ app.get("/user/:id", (req, res, next) => {
     })
     .catch((err) => res.status(500).send(err));
 });
+
+app.get("/user/:user_name", (req, res, next) => {
+  console.log("*****", req.params)
+  db(`select * from user where user_name= "${req.params.user_name}";`)
+    .then((results) => {
+        res.send(results.data);
+    })
+    .catch((err) => res.status(500).send(err));
+});
+
 
 app.get("/all-users", (req, res, next) => {
   db(`select * from user;`)
@@ -108,8 +118,8 @@ app.get("/all-walks", (req, res, next) => {
     .catch((err) => res.status(500).send(err));
 });
 
-app.get("/walk/:name", (req, res, next) => {
-  db(`SELECT * from walk WHERE walk_name="${req.params.name}";`)
+app.get("/walk/:id", (req, res, next) => {
+  db(`SELECT * from walk WHERE walk_id="${req.params.id}";`)
     .then((results) => {
       res.send(results.data);
       //data displayed in IndividualWalk component
