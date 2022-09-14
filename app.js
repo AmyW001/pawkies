@@ -90,6 +90,15 @@ app.get("/user/:username", (req, res, next) => {
 //     .catch((err) => res.status(500).send(err));
 // });
 
+app.get("/user/:user_name", (req, res, next) => {
+  console.log("*****", req.params);
+  db(`select * from user where user_name= "${req.params.user_name}";`)
+    .then((results) => {
+      res.send(results.data);
+    })
+    .catch((err) => res.status(500).send(err));
+});
+
 app.get("/all-users", (req, res, next) => {
   db(`select * from user;`)
     .then((results) => {
@@ -104,7 +113,7 @@ app.get("/all-users", (req, res, next) => {
 
 app.post("/add-walk", (req, res, next) => {
   db(
-    `INSERT INTO walk (walk_name, location, address, types, length, rating, difficulty, description, photo_url) VALUES ("${req.body.walk_name}", "${req.body.location}", "${req.body.address}", "${req.body.types}", "${req.body.length}", "${req.body.rating}", "${req.body.difficulty}", "${req.body.description}", "${req.body.photo_url}")`
+    `INSERT INTO walk (walk_name, location, address, types, length, rating, difficulty, description, photo_url, Coordinates, user_name) VALUES ("${req.body.walk_name}", "${req.body.location}", "${req.body.address}", "${req.body.types}", "${req.body.length}", "${req.body.rating}", "${req.body.difficulty}", "${req.body.description}", "${req.body.photo_url}", "${req.body.Coordinates}","${req.body.user_name}")`
   )
     .then(() => {
       db(`SELECT * from walk WHERE walk_name="${req.body.walk_name}";`).then(
@@ -126,8 +135,17 @@ app.get("/all-walks", (req, res, next) => {
     .catch((err) => res.status(500).send(err));
 });
 
-app.get("/walk/:name", (req, res, next) => {
-  db(`SELECT * from walk WHERE walk_name="${req.params.name}";`)
+app.get("/walk/:id", (req, res, next) => {
+  db(`SELECT * from walk WHERE walk_id="${req.params.id}";`)
+    .then((results) => {
+      res.send(results.data);
+      //data displayed in IndividualWalk component
+    })
+    .catch((err) => res.status(500).send(err));
+});
+
+app.get("/all-walk/:user_name", (req, res, next) => {
+  db(`SELECT * from walk WHERE user_name="${req.params.user_name}";`)
     .then((results) => {
       res.send(results.data);
       //data displayed in IndividualWalk component

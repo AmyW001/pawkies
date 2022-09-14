@@ -9,6 +9,7 @@ import AddWalkForm from "./Components/AddWalkForm";
 import AllWalks from "./Components/AllWalks";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import SignUpForm from "./Components/SignUpForm";
+import IndividualWalk from "./Components/IndividualWalk";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState([]);
@@ -64,9 +65,10 @@ function App() {
           path="/signup"
           element={<SignUpForm addUser={(newUser) => handleAddUser(newUser)} />}
         />
+        <Route path="/walk/:id" element={<IndividualWalk />} />
       </Routes>
     </div>
   );
 }
-
+//I am not sure why we need to add the IndividualWalk and Userprofile here but is the only way that It works, help
 export default App;

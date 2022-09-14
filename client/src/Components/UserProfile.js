@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Talk from "talkjs";
 import userheaderphoto from "../Images/userheaderphoto.jpeg";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function UserProfile({ sessionProps }) {
   const [user, setUser] = useState();
@@ -9,7 +11,11 @@ export default function UserProfile({ sessionProps }) {
   });
   const [primaryChatUser, setPrimaryChatUser] = useState();
   const [error, setError] = useState("");
+  const [allwalks, setAllwalks] = useState([]);
   const chatboxEl = useRef();
+
+  const walklocation = useLocation();
+  const path = walklocation.pathname.split("/")[2];
 
   useEffect(() => {
     console.log(sessionProps);
@@ -109,6 +115,18 @@ export default function UserProfile({ sessionProps }) {
       // chatbox.mount(chatboxEl.current);
     });
   };
+
+  useEffect(() => {
+    fetch("/all-walk/" + path)
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        setAllwalks(json);
+      })
+      .catch((error) => {
+        // upon failure, show error message
+      });
+  }, [path]);
 
   const startChat = () => {
     console.log(primaryChatUser);
@@ -243,6 +261,14 @@ export default function UserProfile({ sessionProps }) {
       <div className="chatbox-div" ref={chatboxEl}></div>;
       <div className="m-1">
         <h3>My walks: (walk cards imported here)</h3>
+        {allwalks.map((onewalk) => (
+          <tr key={onewalk.walk_id}>
+            <Link to={`/walk/${onewalk.walk_id}`}>
+              <p>{onewalk.walk_name}</p>
+            </Link>
+            <img src={onewalk.photo_url} />
+          </tr>
+        ))}
       </div>
     </div>
   );
