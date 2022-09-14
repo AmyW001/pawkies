@@ -21,11 +21,7 @@ function App() {
 
   const handleLoggedInData = (loggedInData) => {
     //function for getting data from child component SignUpForm
-    setLoggedIn((currentState) => [...currentState, loggedInData]);
-  };
-
-  const dataCheck = () => {
-    console.log(loggedIn);
+    setLoggedIn(loggedInData);
   };
 
   const handleAddWalk = (newWalk) => {
@@ -39,7 +35,7 @@ function App() {
   return (
     <div>
       {/* <Header sessionProps={loggedIn} /> */}
-      <button onClick={dataCheck}>Check loggedInData!</button>
+
       <Header sessionProps={loggedIn} />
 
       <Routes>

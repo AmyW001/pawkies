@@ -49,6 +49,22 @@ app.post("/login", (req, res, next) => {
     .catch((err) => res.status(500).send(err));
 });
 
+app.post("/login/chat", (req, res, next) => {
+  console.log(req);
+  db(
+    `SELECT user_name, user_Id, user_email from user WHERE user_name="${req.body.user_name}";`
+  )
+    .then((results) => {
+      if (!results) {
+        return res.status(404).send("Chat information incorrect, try again");
+      } else {
+        res.send(results.data);
+        //data successfully sent from the database to the front end will cause a redirect to user profile page
+      }
+    })
+    .catch((err) => res.status(500).send(err));
+});
+
 app.get("/user/:username", (req, res, next) => {
   console.log(req.params.name);
   db(`select * from user where user_name="${req.params.username}";`)

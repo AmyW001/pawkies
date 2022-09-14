@@ -4,13 +4,15 @@ import userheaderphoto from "../Images/userheaderphoto.jpeg";
 
 export default function UserProfile({ sessionProps }) {
   const [user, setUser] = useState();
+  const [prepareChat, setprepareChat] = useState({
+    user_name: "",
+  });
+  const [primaryChatUser, setPrimaryChatUser] = useState();
+  const [error, setError] = useState("");
   const chatboxEl = useRef();
-
-  // const [error, setError] = useState("");
 
   useEffect(() => {
     const loadPage = async (e) => {
-      console.log(sessionProps);
       try {
         let response = await fetch(window.location.pathname, {
           method: "GET",
@@ -31,17 +33,89 @@ export default function UserProfile({ sessionProps }) {
     loadPage();
   }, []);
 
-  useEffect(() => {
-    //write something here which makes a call to the database to fetch the user's uploaded walks
-    //then display below
-  }, []);
+  const handleInputChange = (event) => {
+    // handle key presses
+    const value = event.target.value;
+    const name = event.target.name;
+
+    setprepareChat((state) => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let response = await fetch("/login/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_name: prepareChat.user_name,
+        }),
+      });
+      if (response.ok) {
+        let data = await response.json();
+        console.log("user prepared!", data);
+        setPrimaryChatUser(data[0]);
+        startChat();
+      } else {
+        setError(`Server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      setError("Network error:", err.message);
+    }
+
+    return null;
+  };
+
+  const startInbox = () => {
+    Talk.ready.then(() => {
+      const currentUser = new Talk.User({
+        id: sessionProps.user_Id,
+        name: sessionProps.user_name,
+        email: sessionProps.user_email,
+        photoUrl: "henry.jpeg",
+        role: "default",
+      });
+
+      const session = new Talk.Session({
+        appId: "tmpyzQVy",
+        me: currentUser,
+      });
+
+      // After `Talk.ready`
+      const otherUser = new Talk.User({
+        id: user.user_Id,
+        name: user.user_name,
+        email: user.user_email,
+        photoUrl: "jessica.jpeg",
+        role: "default",
+      });
+
+      const conversationID = Talk.oneOnOneId(currentUser, otherUser);
+      const conversation = session.getOrCreateConversation(conversationID);
+      conversation.setParticipant(currentUser);
+      conversation.setParticipant(otherUser);
+
+      const inbox = session.createInbox();
+      inbox.select(conversation);
+      inbox.mount(chatboxEl.current);
+
+      // const chatbox = session.createChatbox();
+      // chatbox.select(conversation);
+      // chatbox.mount(chatboxEl.current);
+    });
+  };
 
   const startChat = () => {
     Talk.ready.then(() => {
       const currentUser = new Talk.User({
-        id: sessionProps[0].user_Id,
-        name: sessionProps[0].user_name,
-        email: sessionProps[0].user_email,
+        id: primaryChatUser.user_Id,
+        name: primaryChatUser.user_name,
+        email: primaryChatUser.user_email,
         photoUrl: "henry.jpeg",
         role: "default",
       });
@@ -116,21 +190,43 @@ export default function UserProfile({ sessionProps }) {
                 </div>
               </div>
             </div>
-
-            <button
-              type="button"
-              class="btn btn-lg btn-outline-success message-button m-3"
-              onClick={startChat}
-            >
-              Message Me!
-            </button>
-
-            <p> Get in touch to organise a meet up or group walk.</p>
           </div>
         </div>
       )}
+      {sessionProps.length < 1 && (
+        <div className="user-main-div">
+          <p> Get in touch to organise a meet up or group walk.</p>
+          <form>
+            <label for="username">Enter your username to start a chat!</label>
+            <input
+              type="text"
+              name="user_name"
+              id="user_name"
+              value={prepareChat.user_name}
+              onChange={(e) => handleInputChange(e)}
+            />
+            <button
+              className="btn btn-lg btn-outline-success message-button m-3"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      )}
+      {sessionProps.length >= 1 && (
+        <div className="user-main-div">
+          <button
+            type="button"
+            className="btn btn-lg btn-outline-success message-button m-3"
+            onClick={startInbox}
+          >
+            View My Inbox
+          </button>
+        </div>
+      )}
       <div className="chatbox-div" ref={chatboxEl}></div>;
-      <div className="m-4">
+      <div className="m-1">
         <h3>My walks: (walk cards imported here)</h3>
       </div>
     </div>

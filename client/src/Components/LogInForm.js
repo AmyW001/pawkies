@@ -11,14 +11,6 @@ export default function LoginForm({ loggedInData }) {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const navigate = useNavigate();
 
-  //   useEffect(() => {
-  //     if (loggedInUser) {
-  //       console.log("logged in user", loggedInUser);
-  //       console.log("trying to navigate");
-  //       navigate(`/user/${loggedInUser.user_name}`);
-  //     }
-  //   }, []);
-
   const handleInputChange = (event) => {
     // handle key presses
     const value = event.target.value;
@@ -46,13 +38,10 @@ export default function LoginForm({ loggedInData }) {
       });
       if (response.ok) {
         let data = await response.json();
-        console.log("success, data returned from backend", data);
         setLoggedInUser(data[0]);
         loggedInData(data[0]);
-        console.log("trying to navigate");
         navigate(`/user/${loggedInUser.user_name}`);
       } else {
-        console.log("not working", `${response.status} ${response.statusText}`);
         setError(`Server error: ${response.status} ${response.statusText}`);
       }
     } catch (err) {
