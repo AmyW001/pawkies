@@ -22,7 +22,14 @@ function App() {
   });
   const [Walks, setWalks] = useState([]);
   const [Users, setUsers] = useState([]);
-  // const [coordinates, setCoordinates] = useState([]);
+  
+  const [latitude, setLatitude] = useState([]);
+  const [longitude, setLongitude] = useState([]);
+  const mapLatitude = latitude.map(l => console.log(l));
+  console.log(mapLatitude);
+
+  const [coordinates, setCoordinates] = useState({latitude: "", longitude: ""})
+
 
   const dataToChatComponent = () => {
     //send data to chatComponent using this function
@@ -40,6 +47,14 @@ function App() {
 
   const handleAddUser = (newUser) => {
     setUsers((state) => [...state, newUser]);
+  };
+
+  const handleAddLatitude = (newLatitude) => {
+    setLatitude((state) => [...state, newLatitude]);
+  };
+
+  const handleAddLongitude = (newLongitude) => {
+    setLongitude((state) => [...state, newLongitude]);
   };
 
   return (
@@ -65,7 +80,10 @@ function App() {
         <Route
           path="/addwalkform"
           element={
-            <AddWalkForm addWalk={(newWalk) => handleAddWalk(newWalk)} />
+            <AddWalkForm 
+            addWalk={(newWalk) => handleAddWalk(newWalk)}
+            addLatitude={(newLatitude) => handleAddLatitude(newLatitude)}
+            addLongitude={(newLongitude) => handleAddLongitude(newLongitude)} />
           }
         />
         <Route path="/allwalks" element={<AllWalks Walksprop={Walks} />} />
@@ -73,7 +91,9 @@ function App() {
           path="/signup"
           element={<SignUpForm addUser={(newUser) => handleAddUser(newUser)} />}
         />
-      <Route path="/walk/:id" element={<IndividualWalk />} />
+      <Route 
+      path="/walk/:id" 
+      element={<IndividualWalk latitude={(latitude)} longitude={(longitude)} />} />
       </Routes>
     </div>
     </div>

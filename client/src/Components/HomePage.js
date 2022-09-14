@@ -5,6 +5,7 @@ import AllWalks from "./AllWalks";
 export default function HomePage() {
 
 let [fullWalks, setFullWalks] = useState([]);
+console.log("fullWalks", fullWalks);
 
 
 useEffect(() => {
