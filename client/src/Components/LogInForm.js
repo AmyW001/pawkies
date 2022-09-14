@@ -39,7 +39,7 @@ export default function LoginForm({ loggedInData }) {
       if (response.ok) {
         let data = await response.json();
         setLoggedInUser(data[0]);
-        loggedInData(data[0]);
+        loggedInData([data[0]]);
         navigate(`/user/${loggedInUser.user_name}`);
       } else {
         setError(`Server error: ${response.status} ${response.statusText}`);

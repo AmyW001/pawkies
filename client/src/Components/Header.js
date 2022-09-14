@@ -11,7 +11,7 @@ export default function Header({ sessionProps }) {
     if (sessionProps) {
       setSessionActive(true);
     }
-  }, []);
+  }, [sessionProps]);
 
   const returnHome = async (e) => {
     // handle form submit
@@ -44,7 +44,7 @@ export default function Header({ sessionProps }) {
           Dog Walk Final Project 🐶
         </a>
 
-        {!sessionActive && (
+        {/* {!sessionActive && (
           <form className="form-inline">
             <button
               className="btn btn-outline-success my-2 my-sm-0"
@@ -60,8 +60,8 @@ export default function Header({ sessionProps }) {
               </Link>
             </button>
           </form>
-        )}
-        {sessionActive && (
+        )} */}
+        {sessionActive ? (
           <form className="form-inline">
             <button
               className="btn btn-outline-success my-2 my-sm-0"
@@ -69,6 +69,22 @@ export default function Header({ sessionProps }) {
               onClick={logout}
             >
               Log Out
+            </button>
+          </form>
+        ) : (
+          <form className="form-inline">
+            <button
+              className="btn btn-outline-success my-2 my-sm-0"
+              type="submit"
+              onClick={goToLogin}
+            >
+              Log In
+            </button>
+            <button className="btn btn-secondary my-2 my-sm-0">
+              <Link to="/signup" class="link success" onClick={goToSignUp}>
+                {" "}
+                Sign Up
+              </Link>
             </button>
           </form>
         )}

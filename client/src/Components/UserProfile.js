@@ -12,6 +12,7 @@ export default function UserProfile({ sessionProps }) {
   const chatboxEl = useRef();
 
   useEffect(() => {
+    console.log(sessionProps);
     const loadPage = async (e) => {
       try {
         let response = await fetch(window.location.pathname, {
@@ -60,7 +61,6 @@ export default function UserProfile({ sessionProps }) {
         let data = await response.json();
         console.log("user prepared!", data);
         setPrimaryChatUser(data[0]);
-        startChat();
       } else {
         setError(`Server error: ${response.status} ${response.statusText}`);
       }
@@ -74,9 +74,9 @@ export default function UserProfile({ sessionProps }) {
   const startInbox = () => {
     Talk.ready.then(() => {
       const currentUser = new Talk.User({
-        id: sessionProps.user_Id,
-        name: sessionProps.user_name,
-        email: sessionProps.user_email,
+        id: sessionProps[0].user_Id,
+        name: sessionProps[0].user_name,
+        email: sessionProps[0].user_email,
         photoUrl: "henry.jpeg",
         role: "default",
       });
@@ -111,6 +111,8 @@ export default function UserProfile({ sessionProps }) {
   };
 
   const startChat = () => {
+    console.log(primaryChatUser);
+    console.log(user);
     Talk.ready.then(() => {
       const currentUser = new Talk.User({
         id: primaryChatUser.user_Id,
@@ -133,6 +135,8 @@ export default function UserProfile({ sessionProps }) {
         photoUrl: "jessica.jpeg",
         role: "default",
       });
+
+      console.log(currentUser, otherUser);
 
       const conversationID = Talk.oneOnOneId(currentUser, otherUser);
       const conversation = session.getOrCreateConversation(conversationID);
@@ -193,28 +197,7 @@ export default function UserProfile({ sessionProps }) {
           </div>
         </div>
       )}
-      {sessionProps.length < 1 && (
-        <div className="user-main-div">
-          <p> Get in touch to organise a meet up or group walk.</p>
-          <form>
-            <label for="username">Enter your username to start a chat!</label>
-            <input
-              type="text"
-              name="user_name"
-              id="user_name"
-              value={prepareChat.user_name}
-              onChange={(e) => handleInputChange(e)}
-            />
-            <button
-              className="btn btn-lg btn-outline-success message-button m-3"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      )}
-      {sessionProps.length >= 1 && (
+      {sessionProps.length >= 1 ? (
         <div className="user-main-div">
           <button
             type="button"
@@ -222,6 +205,38 @@ export default function UserProfile({ sessionProps }) {
             onClick={startInbox}
           >
             View My Inbox
+          </button>
+        </div>
+      ) : (
+        !primaryChatUser && (
+          <div className="user-main-div">
+            <p> Get in touch to organise a meet up or group walk.</p>
+            <form>
+              <label for="username">Enter your username to start a chat!</label>
+              <input
+                type="text"
+                name="user_name"
+                id="user_name"
+                value={prepareChat.user_name}
+                onChange={(e) => handleInputChange(e)}
+              />
+              <button
+                className="btn btn-m btn-outline-success message-button m-3"
+                onClick={handleSubmit}
+              >
+                Continue
+              </button>
+            </form>
+          </div>
+        )
+      )}
+      {primaryChatUser && (
+        <div className="user-main-div">
+          <button
+            className="btn btn-m btn-outline-success message-button m-3"
+            onClick={startChat}
+          >
+            Start Chatting
           </button>
         </div>
       )}

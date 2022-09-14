@@ -40,7 +40,7 @@ function App() {
 
       <Routes>
         <Route
-          path="/user/:id"
+          path="/user/:username"
           element={<UserProfile sessionProps={loggedIn} />}
         />
         <Route path="/" element={<HomePage />} />
