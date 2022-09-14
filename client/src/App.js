@@ -22,6 +22,7 @@ function App() {
   });
   const [Walks, setWalks] = useState([]);
   const [Users, setUsers] = useState([]);
+  // const [coordinates, setCoordinates] = useState([]);
 
   const dataToChatComponent = () => {
     //send data to chatComponent using this function

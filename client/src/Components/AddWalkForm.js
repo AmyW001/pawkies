@@ -55,6 +55,7 @@ const addnewWalk = () => {
     .then((res) => res.json())
     .then(json => {
         setFormAllData(json);
+        // setCoordinates(coordinates.lat, coordinates.lng);
     })
     .catch(error => {
        // upon failure, show error message 
