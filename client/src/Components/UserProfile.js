@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Talk from "talkjs";
 import userheaderphoto from "../Images/userheaderphoto.jpeg";
 
-export default function UserProfile({ sessionProps }) {
+export default function UserProfile({ sessionProps, usersProps }) {
   const [user, setUser] = useState();
   const chatboxEl = useRef();
 
@@ -12,7 +12,7 @@ export default function UserProfile({ sessionProps }) {
     const loadPage = async (e) => {
       console.log(sessionProps);
       try {
-        let response = await fetch(window.location.pathname, {
+        let response = await fetch(`/user/${sessionProps.user_name}`, {
           method: "GET",
         });
         if (response.ok) {
@@ -36,43 +36,50 @@ export default function UserProfile({ sessionProps }) {
     //then display below
   }, []);
 
-  const startChat = () => {
-    Talk.ready.then(() => {
-      const currentUser = new Talk.User({
-        id: sessionProps[0].user_Id,
-        name: sessionProps[0].user_name,
-        email: sessionProps[0].user_email,
-        photoUrl: "henry.jpeg",
-        role: "default",
+  const startChat = (e, selectedUser) => {
+    //setUser(selectedUser);
+    console.log(selectedUser === null);
+    console.log(sessionProps, "*******");
+    Talk.ready
+      .then(() => {
+        const currentUser = new Talk.User({
+          id: sessionProps.user_Id,
+          name: sessionProps.user_name,
+          email: sessionProps.user_email,
+          photoUrl: "henry.jpeg",
+          role: "default",
+        });
+
+        const session = new Talk.Session({
+          appId: "tmpyzQVy",
+          me: currentUser,
+        });
+
+        // After `Talk.ready`
+        const otherUser = new Talk.User({
+          id: selectedUser.user_Id,
+          name: selectedUser.user_name,
+          email: selectedUser.user_email,
+          photoUrl: "jessica.jpeg",
+          role: "default",
+        });
+
+        const conversationID = Talk.oneOnOneId(currentUser, otherUser);
+        const conversation = session.getOrCreateConversation(conversationID);
+        conversation.setParticipant(currentUser);
+        conversation.setParticipant(otherUser);
+
+        const inbox = session.createInbox();
+        inbox.select(conversation);
+        inbox.mount(chatboxEl.current);
+
+        // const chatbox = session.createChatbox();
+        // chatbox.select(conversation);
+        // chatbox.mount(chatboxEl.current);
+      })
+      .catch((err) => {
+        console.log("talkjs error", err);
       });
-
-      const session = new Talk.Session({
-        appId: "tmpyzQVy",
-        me: currentUser,
-      });
-
-      // After `Talk.ready`
-      const otherUser = new Talk.User({
-        id: user.user_Id,
-        name: user.user_name,
-        email: user.user_email,
-        photoUrl: "jessica.jpeg",
-        role: "default",
-      });
-
-      const conversationID = Talk.oneOnOneId(currentUser, otherUser);
-      const conversation = session.getOrCreateConversation(conversationID);
-      conversation.setParticipant(currentUser);
-      conversation.setParticipant(otherUser);
-
-      const inbox = session.createInbox();
-      inbox.select(conversation);
-      inbox.mount(chatboxEl.current);
-
-      // const chatbox = session.createChatbox();
-      // chatbox.select(conversation);
-      // chatbox.mount(chatboxEl.current);
-    });
   };
 
   return (
@@ -117,13 +124,24 @@ export default function UserProfile({ sessionProps }) {
               </div>
             </div>
 
-            <button
+            {usersProps.map((user) => {
+              return (
+                <button
+                  type="button"
+                  class="btn btn-lg btn-outline-success message-button m-3"
+                  onClick={(e) => startChat(e, user)}
+                >
+                  Message {user.user_name}!
+                </button>
+              );
+            })}
+            {/* <button
               type="button"
               class="btn btn-lg btn-outline-success message-button m-3"
               onClick={startChat}
             >
               Message Me!
-            </button>
+            </button> */}
 
             <p> Get in touch to organise a meet up or group walk.</p>
           </div>
