@@ -35,6 +35,9 @@ app.post("/sign-up", function (req, res, next) {
 
 app.post("/login", (req, res, next) => {
   console.log(req);
+  console.log(
+    `SELECT user_name, user_Id, location, user_dog_name, user_dog_description from user WHERE user_name="${req.body.user_name}" AND user_email="${req.body.user_email}" AND password="${req.body.password}";`
+  );
   db(
     `SELECT user_name, user_Id, location, user_dog_name, user_dog_description from user WHERE user_name="${req.body.user_name}" AND user_email="${req.body.user_email}" AND password="${req.body.password}";`
   )

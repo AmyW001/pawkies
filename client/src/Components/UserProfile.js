@@ -4,7 +4,7 @@ import userheaderphoto from "../Images/userheaderphoto.jpeg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-export default function UserProfile({ sessionProps }) {
+export default function UserProfile({ sessionProps, usersProps }) {
   const [user, setUser] = useState();
   const [prepareChat, setprepareChat] = useState({
     user_name: "",
@@ -22,7 +22,7 @@ export default function UserProfile({ sessionProps }) {
     console.log(sessionProps);
     const loadPage = async (e) => {
       try {
-        let response = await fetch(window.location.pathname, {
+        let response = await fetch(`/user/${sessionProps.user_name}`, {
           method: "GET",
         });
         if (response.ok) {
@@ -135,42 +135,60 @@ export default function UserProfile({ sessionProps }) {
   };
 
   const startInbox = () => {
-    Talk.ready.then(() => {
-      const currentUser = new Talk.User({
-        id: sessionProps[0].user_Id,
-        name: sessionProps[0].user_name,
-        email: sessionProps[0].user_email,
-        photoUrl: "henry.jpeg",
-        role: "default",
+    Talk.ready
+      .then(() => {
+        const currentUser = new Talk.User({
+          id: sessionProps[0].user_Id,
+          name: sessionProps[0].user_name,
+          email: sessionProps[0].user_email,
+          photoUrl: "henry.jpeg",
+          role: "default",
+        });
+
+        const session = new Talk.Session({
+          appId: "tmpyzQVy",
+          me: currentUser,
+        });
+
+        // After `Talk.ready`
+        const otherUser = new Talk.User({
+          id: user.user_Id,
+          name: user.user_name,
+          email: user.user_email,
+          photoUrl: "jessica.jpeg",
+          role: "default",
+        });
+
+        const session = new Talk.Session({
+          appId: "tmpyzQVy",
+          me: currentUser,
+        });
+
+        // After `Talk.ready`
+        const otherUser = new Talk.User({
+          id: user.user_Id,
+          name: user.user_name,
+          email: user.user_email,
+          photoUrl: "jessica.jpeg",
+          role: "default",
+        });
+
+        const conversationID = Talk.oneOnOneId(currentUser, otherUser);
+        const conversation = session.getOrCreateConversation(conversationID);
+        conversation.setParticipant(currentUser);
+        conversation.setParticipant(otherUser);
+
+        const inbox = session.createInbox();
+        inbox.select(conversation);
+        inbox.mount(chatboxEl.current);
+
+        // const chatbox = session.createChatbox();
+        // chatbox.select(conversation);
+        // chatbox.mount(chatboxEl.current);
+      })
+      .catch((err) => {
+        console.log("talkjs error", err);
       });
-
-      const session = new Talk.Session({
-        appId: "tmpyzQVy",
-        me: currentUser,
-      });
-
-      // After `Talk.ready`
-      const otherUser = new Talk.User({
-        id: user.user_Id,
-        name: user.user_name,
-        email: user.user_email,
-        photoUrl: "jessica.jpeg",
-        role: "default",
-      });
-
-      const conversationID = Talk.oneOnOneId(currentUser, otherUser);
-      const conversation = session.getOrCreateConversation(conversationID);
-      conversation.setParticipant(currentUser);
-      conversation.setParticipant(otherUser);
-
-      const inbox = session.createInbox();
-      inbox.select(conversation);
-      inbox.mount(chatboxEl.current);
-
-      // const chatbox = session.createChatbox();
-      // chatbox.select(conversation);
-      // chatbox.mount(chatboxEl.current);
-    });
   };
 
   return (
@@ -230,6 +248,14 @@ export default function UserProfile({ sessionProps }) {
       ) : (
         !primaryChatUser && (
           <div className="user-main-div">
+            <button
+              type="button"
+              class="btn btn-lg btn-outline-success message-button m-3"
+              onClick={startChat}
+            >
+              Message Me!
+            </button>
+
             <p> Get in touch to organise a meet up or group walk.</p>
             <form>
               <label for="username">

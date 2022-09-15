@@ -12,9 +12,14 @@ import SignUpForm from "./Components/SignUpForm";
 import IndividualWalk from "./Components/IndividualWalk";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(null);
   const [Walks, setWalks] = useState([]);
-  const [Users, setUsers] = useState([]);
+  const [Users, setUsers] = useState([
+    { user_name: "bigboy,", user_Id: 2 },
+    { user_name: "Frank james", user_Id: 3 }, //here we have hard coded user to try the fix but here we should make a fetch get to retrieve the users from the table
+  ]);
+  //Also Frank james is probably a bad example as the spaces in the name wouldn't work in a url so you would need to split and join the name to make it work
+  //Finally, do we need to the user name field in the log in page? usually it is the email and password?
 
   const dataToChatComponent = () => {
     //send data to chatComponent using this function
@@ -26,11 +31,11 @@ function App() {
   };
 
   const handleAddWalk = (newWalk) => {
-    setWalks((state) => [...state, newWalk]);
+    setWalks((state) => [...state, newWalk]); //need to be making a fetch call to your database to get all the walks
   };
 
   const handleAddUser = (newUser) => {
-    setUsers((state) => [...state, newUser]);
+    setUsers((state) => [...state, newUser]); //need to be making a fetch call to your database to get all the users
   };
 
   return (
