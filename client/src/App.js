@@ -1,15 +1,16 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import UserProfile from "./Components/UserProfile.js";
-import Header from "./Components/Header.js";
-import HomePage from "./Components/HomePage.js";
+import Header from "./Components/Header/Header";
+import HomePage from "./Components/Homepage/HomePage";
 import MyChatComponent from "./Components/MyChatComponent.js";
 import LoginForm from "./Components/LogInForm.js";
 import AddWalkForm from "./Components/AddWalkForm";
-import AllWalks from "./Components/AllWalks";
+import AllWalks from "./Components/Allwalks/AllWalks"
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import SignUpForm from "./Components/SignUpForm";
 import IndividualWalk from "./Components/IndividualWalk";
+import Aboutus from "./Components/Aboutus/Aboutus";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(null);
@@ -50,6 +51,7 @@ function App() {
           element={<UserProfile sessionProps={loggedIn} />}
         />
         <Route path="/" element={<HomePage />} />
+        <Route path="/about-us" element={<Aboutus />} />
         <Route path="/chat" element={<MyChatComponent />} />
         <Route
           path="/login"

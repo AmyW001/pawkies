@@ -159,20 +159,6 @@ export default function UserProfile({ sessionProps, usersProps }) {
           role: "default",
         });
 
-        const session = new Talk.Session({
-          appId: "tmpyzQVy",
-          me: currentUser,
-        });
-
-        // After `Talk.ready`
-        const otherUser = new Talk.User({
-          id: user.user_Id,
-          name: user.user_name,
-          email: user.user_email,
-          photoUrl: "jessica.jpeg",
-          role: "default",
-        });
-
         const conversationID = Talk.oneOnOneId(currentUser, otherUser);
         const conversation = session.getOrCreateConversation(conversationID);
         conversation.setParticipant(currentUser);
@@ -199,10 +185,7 @@ export default function UserProfile({ sessionProps, usersProps }) {
             <img className="user-header-image" src={userheaderphoto}></img>
           </div>
 
-          <img
-            className="user-img"
-            src="https://images.unsplash.com/photo-1595314544137-1b106b06e2c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-          ></img>
+          <img className="user-img" src={user.user_photo}></img>
 
           <div>
             <h1 className="user-header">Hi! My name is {user.user_name}!</h1>
@@ -227,7 +210,7 @@ export default function UserProfile({ sessionProps, usersProps }) {
                 <div className="col-6">
                   <img
                     className="user-dog-image"
-                    src="https://images.unsplash.com/photo-1554020997-47f84383f66a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+                    src={user.user_dog_photo}
                   ></img>
                 </div>
               </div>
