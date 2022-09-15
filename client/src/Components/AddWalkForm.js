@@ -6,7 +6,6 @@ function AddWalkForm({addWalk}) {
     walkname: "",
     walklocation: "",
     walkaddress: "",
-    walkcoordinates: "",
     walklatitude: "",
     walklongitude: "",
     walktypes: "",
@@ -44,7 +43,6 @@ const addnewWalk = () => {
         walk_name: formAllData.walkname,
         location: formAllData.walklocation,
         address: formAllData.walkaddress,
-        Coordinates: formAllData.walkcoordinates,
         Latitude: formAllData.walklatitude,
         Longitude: formAllData.walklongitude,
         types: formAllData.walktypes,
@@ -115,18 +113,6 @@ return (
                         name="walkaddress"
                         type = "text"
                         value={formAllData.walkaddress}
-                        onChange={handleChange}
-                        class="form-control"
-                        required
-                    />
-                </div>
-
-                <div class ="form-group col-md-4">
-                    <label className="form-label"> What were the coordinates?</label>
-                    <input 
-                        name="walkcoordinates"
-                        type = "text"
-                        value={formAllData.walkcoordinates}
                         onChange={handleChange}
                         class="form-control"
                         required
