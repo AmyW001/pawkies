@@ -52,7 +52,7 @@ app.post("/login", (req, res, next) => {
 app.post("/login/chat", (req, res, next) => {
   console.log(req);
   db(
-    `SELECT user_name, user_Id, user_email from user WHERE user_name="${req.body.user_name}";`
+    `SELECT user_name, user_Id, user_email from user WHERE user_name="${req.body.user_name}" AND password="${req.body.password}";`
   )
     .then((results) => {
       if (!results) {
@@ -99,6 +99,18 @@ app.get("/user/:user_name", (req, res, next) => {
     .catch((err) => res.status(500).send(err));
 });
 
+app.get("/user/plus/:id", (req, res, next) => {
+  db(`select * from user where user_Id="${req.params.id}";`)
+    .then((results) => {
+      if (!results) {
+        return res.status(404).send("No user found");
+      } else {
+        res.send(results.data);
+      }
+    })
+    .catch((err) => res.status(500).send(err));
+});
+
 app.get("/all-users", (req, res, next) => {
   db(`select * from user;`)
     .then((results) => {
@@ -113,7 +125,7 @@ app.get("/all-users", (req, res, next) => {
 
 app.post("/add-walk", (req, res, next) => {
   db(
-    `INSERT INTO walk (walk_name, location, address, types, length, rating, difficulty, description, photo_url, Coordinates, user_name) VALUES ("${req.body.walk_name}", "${req.body.location}", "${req.body.address}", "${req.body.types}", "${req.body.length}", "${req.body.rating}", "${req.body.difficulty}", "${req.body.description}", "${req.body.photo_url}", "${req.body.Coordinates}","${req.body.user_name}")`
+    `INSERT INTO walk (walk_name, location, address, types, length, rating, difficulty, description, photo_url, longitude, latitude, user_name) VALUES ("${req.body.walk_name}", "${req.body.location}", "${req.body.address}", "${req.body.types}", "${req.body.length}", ${req.body.rating}, ${req.body.difficulty}, "${req.body.description}", "${req.body.photo_url}", "${req.body.user_name}", "${req.body.latitude}", "${req.body.longitude}");`
   )
     .then(() => {
       db(`SELECT * from walk WHERE walk_name="${req.body.walk_name}";`).then(
