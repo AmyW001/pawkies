@@ -29,14 +29,8 @@ return (
         <img src={Logo} className='headerTitleLg'></img>
       </div>
         <img
-<<<<<<< HEAD:client/src/Components/HomePage.js
-          className="img-fluid main-page-header-image"
-          src="https://images.unsplash.com/photo-1605001011156-cbf0b0f67a51?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80"
-          alt="dog-women"
-=======
           className="headerImg"
           src="https://images.unsplash.com/photo-1551779891-b83901e1f8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
->>>>>>> master:client/src/Components/Homepage/HomePage.js
         ></img>
       <div className='walksTitle'>
       Latest pawkies
