@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import SignUpForm from "./SignUpForm";
+import "./Header.css"
 
 export default function Header(sessionProps) {
   const navigate = useNavigate();
@@ -14,10 +14,32 @@ export default function Header(sessionProps) {
 
   return (
     <div>
-      <nav className="navbar navbar-light bg-light justify-content-between">
-        <a className="navbar-brand" onClick={returnHome}>
-          Dog Walk Final Project 🐶
+      <nav className="top">
+        <div className="topLeft">
+        <a onClick={returnHome}>
+          <i className="Icon fa-brands fa-square-facebook"></i>
+          <i className="Icon fa-brands fa-square-instagram"></i>
+          <i className="Icon fa-brands fa-square-twitter"></i>
+          <i className="Icon fa-brands fa-square-youtube"></i>
         </a>
+        </div>
+
+
+        <div className="topCenter">
+          <ul className="topList">
+            <Link className="link" to="/">
+            <li className="topListItem">HOME</li>
+            </Link>
+            <Link className="link" to="about-us">
+            <li className="topListItem">ABOUT</li>
+            </Link>
+            <Link className="link" to="/addwalkform">
+            <li className="topListItem">ADD A WALK</li>
+            </Link>
+          </ul>
+        </div>
+
+        <div className="topRight">
         {!sessionProps && (
           <form className="form-inline">
             <button
@@ -44,6 +66,7 @@ export default function Header(sessionProps) {
             </button>
           </form>
         )}
+        </div>
       </nav>
     </div>
   );

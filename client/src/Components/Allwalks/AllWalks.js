@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Walk from "./walk/Walk"
+import Walk from '../Walk/Walk';
+import "./Allwalks.css"
 
 export default function AllWalks({walks}) {
 
 
   return (
-    <div class = "card pb-3 bg-light"> AllWalks
+    <div className='allWalks'>
     {walks.map((w) => (
-          <Walk key={w.id} walk={w} />
+          <Walk key={w.id} walk={w}/>
     ))};
     </div>
   );
