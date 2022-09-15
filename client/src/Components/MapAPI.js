@@ -19,7 +19,7 @@ export default function MapAPI({coordinates}) {
   {coordinates.map((c) => {
     return (
       <Marker 
-    position={[coordinates.latitude, coordinates.longitude]}>
+    position={[c.latitude, c.longitude]}>
       <Popup>
         This is the location <br />
       </Popup>

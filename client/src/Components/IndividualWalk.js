@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 import MapAPI from './MapAPI';
 
-export default function IndividualWalk({latitude, longitude}) {
+export default function IndividualWalk({coordinates}) {
 
   const walklocation = useLocation()
   const path= (walklocation.pathname.split("/")[2]);
@@ -35,7 +35,7 @@ export default function IndividualWalk({latitude, longitude}) {
       <h2>Here is the description: {one.description} </h2>
       <h3>Here is the location: {one.location}</h3>
       <div className="map-container">
-        <MapAPI latitude={(latitude)} longitude={(longitude)}/>
+        <MapAPI coordinates={(coordinates)}/>
       </div>
       <Link to={`/user/${one.user_name}`}>
       <span>{one.user_name}</span>
