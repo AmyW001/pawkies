@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom';
-import MapAPI from './MapAPI';
+import MapAPI from '../Map API/MapAPI';
 
 export default function IndividualWalk({coordinates}) {
 

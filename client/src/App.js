@@ -9,7 +9,8 @@ import AddWalkForm from "./Components/AddWalkForm";
 import AllWalks from "./Components/AllWalks";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import SignUpForm from "./Components/SignUpForm";
-import IndividualWalk from "./Components/IndividualWalk";
+import IndividualWalk from "./Components/Individual Walks/IndividualWalk";
+import MapAPI from "./Components/Map API/MapAPI";
 
 function App() {
   //hardcoded data below, as temporary fix
@@ -98,8 +99,15 @@ function App() {
         />
       <Route 
       path="/walk/:id" 
-      element={<IndividualWalk latitude={(latitude)} longitude={(longitude)} />} />
+      element={<IndividualWalk coordinates={(coordinates)} />} />
       </Routes>
+
+      <Route
+      path="/mapAPI"
+      element={
+        <MapAPI/>
+      }
+      />
     </div>
     </div>
   );
