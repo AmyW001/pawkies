@@ -154,3 +154,61 @@ input[type="submit"] {
   text-align: center;
   display: inline-block;
 }
+
+.allWalks {
+  flex: 9;
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 60px;
+  flex-direction: row;
+}
+
+.walk {
+  width: 385px;
+  margin: 0px 25px 40px 25px;
+}
+
+.walkImg {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+.walkInfo {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.walkLocation {
+  font-family: "Lora", serif;
+  font-size: 18px;
+  color: black;
+  line-height: 20px;
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+.walkTitle {
+  font-family: "Lora", serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.walkType {
+  font-family: "Lora", serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #999;
+}
+
+.walkDesc {
+  font-family: "Lora", serif;
+  font-size: 15px;
+  color: black;
+}
