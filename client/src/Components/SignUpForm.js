@@ -44,6 +44,7 @@ export default function SignUpForm({ addUser }) {
       setSubmitted(true);
       setError(false);
     }
+    //TODO - Maybe navigate to the sign in page when you submit
   };
 
   //Posting the new user in the database

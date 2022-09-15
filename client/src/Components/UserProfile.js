@@ -4,17 +4,22 @@ import userheaderphoto from "../Images/userheaderphoto.jpeg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-export default function UserProfile(sessionProps) {
+export default function UserProfile({ sessionProps }) {
   const [user, setUser] = useState();
+  const [prepareChat, setprepareChat] = useState({
+    user_name: "",
+    password: "",
+  });
+  const [primaryChatUser, setPrimaryChatUser] = useState();
+  const [error, setError] = useState("");
   const [allwalks, setAllwalks] = useState([]);
   const chatboxEl = useRef();
 
-  const walklocation = useLocation()
-  const path= (walklocation.pathname.split("/")[2]);
-
-
+  const walklocation = useLocation();
+  const path = walklocation.pathname.split("/")[2];
 
   useEffect(() => {
+    console.log(sessionProps);
     const loadPage = async (e) => {
       try {
         let response = await fetch(window.location.pathname, {
@@ -37,34 +42,74 @@ export default function UserProfile(sessionProps) {
   }, []);
 
   useEffect(() => {
-    fetch("/all-walk/" + path) 
-            .then(res => res.json())
-            .then(json => {
-              console.log(json)
-              setAllwalks(json);
-            })
-            .catch(error => {
-              // upon failure, show error message
-            });
-        }, [path]);
+    fetch("/all-walk/" + path)
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        setAllwalks(json);
+      })
+      .catch((error) => {
+        // upon failure, show error message
+      });
+  }, [path]);
+
+  const handleInputChange = (event) => {
+    // handle key presses
+    const value = event.target.value;
+    const name = event.target.name;
+
+    setprepareChat((state) => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let response = await fetch("/login/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_name: prepareChat.user_name,
+          password: prepareChat.password,
+        }),
+      });
+      if (response.ok) {
+        let data = await response.json();
+        console.log("user prepared!", data);
+        setPrimaryChatUser(data[0]);
+      } else {
+        setError(`Server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      setError("Network error:", err.message);
+    }
+
+    return null;
+  };
 
   const startChat = () => {
+    console.log(primaryChatUser);
+    console.log(user);
     Talk.ready.then(() => {
-      const currentUser = new Talk.User({
-        id: sessionProps.sessionProps.user_Id,
-        name: sessionProps.sessionProps.user_name,
-        email: sessionProps.sessionProps.user_email,
+      const primaryUser = new Talk.User({
+        id: primaryChatUser.user_Id,
+        name: primaryChatUser.user_name,
+        email: primaryChatUser.user_email,
         photoUrl: "henry.jpeg",
         role: "default",
       });
 
       const session = new Talk.Session({
         appId: "tmpyzQVy",
-        me: currentUser,
+        me: primaryUser,
       });
 
       // After `Talk.ready`
-      const otherUser = new Talk.User({
+      const secondaryUser = new Talk.User({
         id: user.user_Id,
         name: user.user_name,
         email: user.user_email,
@@ -72,19 +117,64 @@ export default function UserProfile(sessionProps) {
         role: "default",
       });
 
-      const conversationID = Talk.oneOnOneId(currentUser, otherUser);
-      const conversation = session.getOrCreateConversation(conversationID);
-      conversation.setParticipant(currentUser);
-      conversation.setParticipant(otherUser);
+      // console.log(currentUser, otherUser);
+
+      const conversationID1 = Talk.oneOnOneId(primaryUser, secondaryUser);
+      const conversation1 = session.getOrCreateConversation(conversationID1);
+      conversation1.setParticipant(primaryUser);
+      conversation1.setParticipant(secondaryUser);
 
       const inbox = session.createInbox();
-      inbox.select(conversation);
+      inbox.select(conversation1);
       inbox.mount(chatboxEl.current);
 
       // const chatbox = session.createChatbox();
       // chatbox.select(conversation);
       // chatbox.mount(chatboxEl.current);
     });
+  };
+
+  const startInbox = () => {
+    Talk.ready
+      .then(() => {
+        const currentUser = new Talk.User({
+          id: sessionProps[0].user_Id,
+          name: sessionProps[0].user_name,
+          email: sessionProps[0].user_email,
+          photoUrl: "henry.jpeg",
+          role: "default",
+        });
+
+        const session = new Talk.Session({
+          appId: "tmpyzQVy",
+          me: currentUser,
+        });
+
+        // After `Talk.ready`
+        const otherUser = new Talk.User({
+          id: user.user_Id,
+          name: user.user_name,
+          email: user.user_email,
+          photoUrl: "jessica.jpeg",
+          role: "default",
+        });
+
+        const conversationID = Talk.oneOnOneId(currentUser, otherUser);
+        const conversation = session.getOrCreateConversation(conversationID);
+        conversation.setParticipant(currentUser);
+        conversation.setParticipant(otherUser);
+
+        const inbox = session.createInbox();
+        inbox.select(conversation);
+        inbox.mount(chatboxEl.current);
+
+        // const chatbox = session.createChatbox();
+        // chatbox.select(conversation);
+        // chatbox.mount(chatboxEl.current);
+      })
+      .catch((err) => {
+        console.log("talkjs error", err);
+      });
   };
 
   return (
@@ -95,10 +185,7 @@ export default function UserProfile(sessionProps) {
             <img className="user-header-image" src={userheaderphoto}></img>
           </div>
 
-          <img
-            className="user-img"
-            src={user.user_photo}
-          ></img>
+          <img className="user-img" src={user.user_photo}></img>
 
           <div>
             <h1 className="user-header">Hi! My name is {user.user_name}!</h1>
@@ -128,7 +215,22 @@ export default function UserProfile(sessionProps) {
                 </div>
               </div>
             </div>
-
+          </div>
+        </div>
+      )}
+      {sessionProps ? (
+        <div className="user-main-div">
+          <button
+            type="button"
+            className="btn btn-lg btn-outline-success message-button m-3"
+            onClick={startInbox}
+          >
+            View My Inbox
+          </button>
+        </div>
+      ) : (
+        !primaryChatUser && (
+          <div className="user-main-div">
             <button
               type="button"
               class="btn btn-lg btn-outline-success message-button m-3"
@@ -138,26 +240,65 @@ export default function UserProfile(sessionProps) {
             </button>
 
             <p> Get in touch to organise a meet up or group walk.</p>
+            <form>
+              <label for="username">
+                Enter your username and password to start a chat!
+              </label>
+              <input
+                type="text"
+                name="user_name"
+                id="user_name"
+                value={prepareChat.user_name}
+                onChange={(e) => handleInputChange(e)}
+              />
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={prepareChat.password}
+                onChange={(e) => handleInputChange(e)}
+              />
+              <button
+                className="btn btn-m btn-outline-success message-button m-3"
+                onClick={handleSubmit}
+              >
+                Continue
+              </button>
+            </form>
           </div>
+        )
+      )}
+      {primaryChatUser && (
+        <div className="user-main-div">
+          <button
+            className="btn btn-m btn-outline-success message-button m-3"
+            onClick={startChat}
+          >
+            Start Chatting
+          </button>
         </div>
       )}
       <div className="chatbox-div" ref={chatboxEl}></div>
-      <div className="m-4">
-
-
-
-        <h3>My walks: (walk cards imported here)</h3>
-        {allwalks.map(onewalk=> (
-        <tr key={onewalk.walk_id}>
-          <Link to={`/walk/${onewalk.walk_id}`}>
-          <p>{onewalk.walk_name}</p>
-          </Link>
-          <img
-          src={onewalk.photo_url}
-          />
-        </tr>
-        ))}
-      </div>
+      {/* walks: */}
+      {/* <div className="m-1"> */}
+      <h3>My walks:</h3>
+      {allwalks.map((onewalk) => (
+        <div className="allWalks">
+          <div className="walk">
+            <div className="walkInfo">
+              <tr key={onewalk.walk_id}>
+                <Link to={`/walk/${onewalk.walk_id}`}>
+                  <span className="walkTitle">
+                    <p>{onewalk.walk_name}</p>
+                  </span>
+                </Link>
+                <img className="walkImg" src={onewalk.photo_url} />
+              </tr>
+            </div>
+          </div>
+        </div>
+      ))}
+      {/* </div> */}
     </div>
   );
 }
