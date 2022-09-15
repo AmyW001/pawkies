@@ -28,8 +28,12 @@ export default function IndividualWalk({coordinates}) {
       {individualwalk.map (one => (
         <tr key={one.walk_id}>
         <img
+<<<<<<< HEAD:client/src/Components/Individual Walks/IndividualWalk.js
         src="https://cdn.pixabay.com/photo/2016/11/29/05/43/dog-1867604__480.jpg"
         alt="person-with-dog"
+=======
+        src={one.photo_url}
+>>>>>>> master:client/src/Components/IndividualWalk.js
         />
       <h1>This is a title walk: {one.walk_name}  </h1>
       <h2>Here is the description: {one.description} </h2>

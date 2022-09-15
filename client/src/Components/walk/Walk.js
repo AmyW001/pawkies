@@ -7,18 +7,22 @@ export default function Walk({walk}) {
     <div className="walk">
       <img
       className="walkImg"
-        src= "https://cdn.pixabay.com/photo/2019/11/07/20/44/dog-4609870__480.jpg"
+        src= {walk.photo_url}
         alt= ""
       />  
-      <Link to={`/walk/${walk.walk_id}`}>
-      <span className="walktitle">{walk.walk_name}</span>
-      </Link>
-      <div className="walkDesc">
-        <div className="walkPlace">
-            <span className="waltype">{walk.types}</span>
-            <span className="walkdifficulty">{walk.difficulty}</span>
+
+      <div className="walkInfo">
+
+        <div className="walkCats">
+         <span className="walkLocation">{walk.location}</span>
         </div>
-      </div>
+
+        <Link className="link" to={`/walk/${walk.walk_id}`}>
+        <span className="walkTitle">{walk.walk_name}</span>
+        </Link>
+        <span className="walkType">{walk.types}</span>
+        <p className="walkDesc">"{walk.description}"</p>
+        </div>
     </div>
   )
 }
