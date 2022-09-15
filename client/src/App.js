@@ -49,12 +49,16 @@ function App() {
     setUsers((state) => [...state, newUser]);
   };
 
-  const handleAddLatitude = (newLatitude) => {
-    setLatitude((state) => [...state, newLatitude]);
-  };
+  // const handleAddLatitude = (newLatitude) => {
+  //   setLatitude((state) => [...state, newLatitude]);
+  // };
 
-  const handleAddLongitude = (newLongitude) => {
-    setLongitude((state) => [...state, newLongitude]);
+  // const handleAddLongitude = (newLongitude) => {
+  //   setLongitude((state) => [...state, newLongitude]);
+  // };
+
+  const handleAddCoordinates = (newCoordinates) => {
+    setCoordinates((state) => [...state, newCoordinates]);
   };
 
   return (
@@ -82,8 +86,9 @@ function App() {
           element={
             <AddWalkForm 
             addWalk={(newWalk) => handleAddWalk(newWalk)}
-            addLatitude={(newLatitude) => handleAddLatitude(newLatitude)}
-            addLongitude={(newLongitude) => handleAddLongitude(newLongitude)} />
+            // addLatitude={(newLatitude) => handleAddLatitude(newLatitude)}
+            // addLongitude={(newLongitude) => handleAddLongitude(newLongitude)}
+            addCoordinates={(newCoordinates) => handleAddCoordinates(newCoordinates)} />
           }
         />
         <Route path="/allwalks" element={<AllWalks Walksprop={Walks} />} />

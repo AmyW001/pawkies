@@ -2,7 +2,7 @@ import "./map.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 
-export default function MapAPI({latitude, longitude}) {
+export default function MapAPI({coordinates}) {
   return (
     <div className="App">
       <MapContainer
@@ -16,16 +16,16 @@ export default function MapAPI({latitude, longitude}) {
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   />
 
-  {longitude && latitude.map((lat) => (
-    longitude.map((lng) => (
+  {coordinates.map((c) => {
+    return (
       <Marker 
-    position={[lat, lng]}>
+    position={[coordinates.latitude, coordinates.longitude]}>
       <Popup>
         This is the location <br />
       </Popup>
     </Marker>
-    ))
-  ))}
+  );
+})}
 </MapContainer>
     </div>
   );
