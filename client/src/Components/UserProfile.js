@@ -97,7 +97,7 @@ export default function UserProfile(sessionProps) {
 
           <img
             className="user-img"
-            src="https://images.unsplash.com/photo-1595314544137-1b106b06e2c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+            src={user.user_photo}
           ></img>
 
           <div>
@@ -123,7 +123,7 @@ export default function UserProfile(sessionProps) {
                 <div className="col-6">
                   <img
                     className="user-dog-image"
-                    src="https://images.unsplash.com/photo-1554020997-47f84383f66a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+                    src={user.user_dog_photo}
                   ></img>
                 </div>
               </div>
