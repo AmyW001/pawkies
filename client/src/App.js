@@ -9,13 +9,30 @@ import AddWalkForm from "./Components/AddWalkForm";
 import AllWalks from "./Components/Allwalks/AllWalks";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import SignUpForm from "./Components/SignUpForm";
+<<<<<<< HEAD
+import IndividualWalk from "./Components/Individual Walks/IndividualWalk";
+import MapAPI from "./Components/Map API/MapAPI";
+=======
 import IndividualWalk from "./Components/IndividualWalk";
 import Aboutus from "./Components/Aboutus/Aboutus";
+>>>>>>> master
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(null);
   const [Walks, setWalks] = useState([]);
+<<<<<<< HEAD
+  const [Users, setUsers] = useState([]);
+  
+  const [latitude, setLatitude] = useState([]);
+  const [longitude, setLongitude] = useState([]);
+  const mapLatitude = latitude.map(l => console.log(l));
+  console.log(mapLatitude);
+
+  const [coordinates, setCoordinates] = useState({latitude: "", longitude: ""})
+
+=======
   const [Users, setUsers] = useState();
+>>>>>>> master
 
   const handleLoggedInData = (loggedInData) => {
     //function for getting data from child component SignUpForm
@@ -30,7 +47,20 @@ function App() {
     setUsers((state) => [...state, newUser]); //need to be making a fetch call to your database to get all the users
   };
 
+  // const handleAddLatitude = (newLatitude) => {
+  //   setLatitude((state) => [...state, newLatitude]);
+  // };
+
+  // const handleAddLongitude = (newLongitude) => {
+  //   setLongitude((state) => [...state, newLongitude]);
+  // };
+
+  const handleAddCoordinates = (newCoordinates) => {
+    setCoordinates((state) => [...state, newCoordinates]);
+  };
+
   return (
+    <div className="App">
     <div>
       {/* <Header sessionProps={loggedIn} /> */}
 
@@ -55,7 +85,11 @@ function App() {
         <Route
           path="/addwalkform"
           element={
-            <AddWalkForm addWalk={(newWalk) => handleAddWalk(newWalk)} />
+            <AddWalkForm 
+            addWalk={(newWalk) => handleAddWalk(newWalk)}
+            // addLatitude={(newLatitude) => handleAddLatitude(newLatitude)}
+            // addLongitude={(newLongitude) => handleAddLongitude(newLongitude)}
+            addCoordinates={(newCoordinates) => handleAddCoordinates(newCoordinates)} />
           }
         />
         <Route path="/allwalks" element={<AllWalks Walksprop={Walks} />} />
@@ -63,8 +97,22 @@ function App() {
           path="/signup"
           element={<SignUpForm addUser={(newUser) => handleAddUser(newUser)} />}
         />
+<<<<<<< HEAD
+      <Route 
+      path="/walk/:id" 
+      element={<IndividualWalk coordinates={(coordinates)} />} />
+=======
         <Route path="/walk/:id" element={<IndividualWalk />} />
+>>>>>>> master
       </Routes>
+
+      <Route
+      path="/mapAPI"
+      element={
+        <MapAPI/>
+      }
+      />
+    </div>
     </div>
   );
 }

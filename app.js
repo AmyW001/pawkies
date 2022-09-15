@@ -128,7 +128,11 @@ app.get("/all-users", (req, res, next) => {
 
 app.post("/add-walk", (req, res, next) => {
   db(
+<<<<<<< HEAD
+    `INSERT INTO walk (walk_name, location, address, types, length, rating, difficulty, description, photo_url, user_name, latitude, longitude) VALUES ("${req.body.walk_name}", "${req.body.location}", "${req.body.address}", "${req.body.types}", "${req.body.length}", "${req.body.rating}", "${req.body.difficulty}", "${req.body.description}", "${req.body.photo_url}","${req.body.user_name}", "${req.body.latitude}", "${req.body.longitude}" )`
+=======
     `INSERT INTO walk (walk_name, location, address, types, length, rating, difficulty, description, photo_url, user_name, latitude, longitude) VALUES ("${req.body.walk_name}", "${req.body.location}", "${req.body.address}", "${req.body.types}", "${req.body.length}", "${req.body.rating}", "${req.body.difficulty}", "${req.body.description}", "${req.body.photo_url}", "${req.body.user_name}", "${req.body.latitude}", "${req.body.longitude}")`
+>>>>>>> master
   )
     .then(() => {
       db(`SELECT * from walk WHERE walk_name="${req.body.walk_name}";`).then(

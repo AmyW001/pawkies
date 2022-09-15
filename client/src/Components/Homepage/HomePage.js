@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import AllWalks from '../Allwalks/AllWalks';
 import "./Homepage.css"
@@ -8,6 +7,7 @@ import Logo from "./Logo Pawkies.png"
 export default function HomePage() {
 
 let [fullWalks, setFullWalks] = useState([]);
+console.log("fullWalks", fullWalks);
 
 
 useEffect(() => {
